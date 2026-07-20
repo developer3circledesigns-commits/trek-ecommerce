@@ -1,0 +1,5 @@
+[build]
+  publish = "public/trek"
+
+[build.processing]
+  skip_processing = true

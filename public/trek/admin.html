@@ -1,0 +1,310 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>Admin Dashboard — Trek Tamil Nadu</title>
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"/>
+<link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet"/>
+<link href="css/style.css" rel="stylesheet"/>
+<style>
+body{background:#f4f5f2;font-family:'Inter',sans-serif}
+.admin{display:flex;min-height:100vh}
+.sidebar{width:240px;background:#1e2718;color:#cfd3c4;position:fixed;top:0;bottom:0;display:flex;flex-direction:column;padding:1rem 0}
+.sidebar .logo{padding:0 1.25rem 1rem;border-bottom:1px solid #2c3823;margin-bottom:.5rem}
+.sidebar .logo .brand-logo small{color:#fff}
+.sidebar .section{font-size:.7rem;letter-spacing:2px;color:#7d8874;padding:1rem 1.25rem .35rem}
+.sidebar a{display:flex;align-items:center;gap:.7rem;padding:.55rem 1.25rem;color:#cfd3c4;font-size:.88rem}
+.sidebar a i.chev{margin-left:auto;font-size:.75rem;opacity:.7}
+.sidebar a:hover{background:#26301c;color:#fff}
+.sidebar a.active{background:#4a5d23;color:#fff}
+.sidebar .logout{margin-top:auto;border-top:1px solid #2c3823;padding-top:.5rem}
+.main{flex:1;margin-left:240px;display:flex;flex-direction:column}
+.topbar-adm{background:#fff;padding:.75rem 1.25rem;display:flex;align-items:center;gap:1rem;border-bottom:1px solid #eee}
+.topbar-adm .search{flex:1;max-width:520px;background:#f5f6f2;border-radius:8px;display:flex;align-items:center;padding:.15rem .75rem}
+.topbar-adm .search input{border:0;background:transparent;flex:1;padding:.55rem;outline:none;font-size:.9rem}
+.topbar-adm .ic-btn{position:relative;background:transparent;border:0;padding:.35rem;color:#111;font-size:1.1rem}
+.topbar-adm .ic-btn .b{position:absolute;top:-2px;right:-4px;background:#e74c3c;color:#fff;border-radius:50%;font-size:.65rem;width:16px;height:16px;display:inline-flex;align-items:center;justify-content:center}
+.topbar-adm .ic-btn.chat .b{background:#f5a623}
+.avatar{width:40px;height:40px;border-radius:50%;background:#ccc;background-size:cover;background-position:center}
+.page{padding:1.25rem 1.5rem;flex:1}
+.page-head{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:1rem}
+.page-head h4{font-weight:700;margin:0}
+.page-head .crumb{font-size:.82rem;color:#888;margin-top:.25rem}
+.date-pill{background:#fff;border:1px solid #e5e5e5;border-radius:8px;padding:.55rem 1rem;font-size:.85rem;display:inline-flex;align-items:center;gap:.5rem}
+.stat{background:#fff;border-radius:10px;padding:1rem 1.1rem;position:relative;overflow:hidden;height:100%}
+.stat .ic{width:44px;height:44px;border-radius:50%;display:inline-flex;align-items:center;justify-content:center;color:#fff;font-size:1.15rem}
+.stat h6{color:#666;font-size:.85rem;margin:0}
+.stat .val{font-size:1.55rem;font-weight:700;margin:.2rem 0}
+.stat .delta{font-size:.78rem;color:#2e7d32}
+.stat .delta.down{color:#c62828}
+.spark{position:absolute;left:0;right:0;bottom:0;height:60px;pointer-events:none}
+.card-adm{background:#fff;border-radius:10px;padding:1.1rem 1.25rem;height:100%}
+.card-adm h6{font-weight:700;margin:0 0 .75rem;font-size:.95rem}
+.pill-dropdown{border:1px solid #e5e5e5;border-radius:8px;padding:.35rem .7rem;font-size:.8rem}
+.legend-item{display:flex;justify-content:space-between;align-items:center;font-size:.85rem;padding:.35rem 0}
+.legend-item .dot{width:10px;height:10px;border-radius:2px;display:inline-block;margin-right:.55rem}
+.order-row{display:flex;justify-content:space-between;align-items:center;padding:.55rem 0;font-size:.85rem;border-bottom:1px solid #f2f2f2}
+.order-row:last-child{border-bottom:0}
+.badge-status{border-radius:20px;font-size:.7rem;padding:.25em .6em;font-weight:500}
+.b-proc{background:#e3f0ff;color:#1976d2}
+.b-ship{background:#e8f5e9;color:#2e7d32}
+.b-del{background:#f0f4c3;color:#7c8500}
+.b-can{background:#ffebee;color:#c62828}
+.table-mini{width:100%;font-size:.85rem}
+.table-mini th{font-weight:600;color:#666;font-size:.75rem;padding:.4rem 0;border-bottom:1px solid #eee}
+.table-mini td{padding:.55rem 0;border-bottom:1px solid #f4f4f4}
+.thumb{width:36px;height:36px;border-radius:6px;background:#eef1e6;display:inline-flex;align-items:center;justify-content:center;margin-right:.6rem;color:var(--brand)}
+.low-item{display:flex;justify-content:space-between;align-items:center;font-size:.85rem;padding:.5rem 0;border-bottom:1px solid #f4f4f4}
+.low-tag{background:#fdecea;color:#c62828;font-size:.7rem;padding:.2em .55em;border-radius:6px}
+.mini-stat{background:#fff;border-radius:10px;padding:.95rem 1rem;display:flex;gap:.75rem;align-items:center;height:100%}
+.mini-stat .ic{width:38px;height:38px;border-radius:50%;display:inline-flex;align-items:center;justify-content:center;color:#fff}
+.mini-stat .val{font-weight:700;font-size:1.15rem}
+.mini-stat .lbl{font-size:.78rem;color:#666}
+.foot-adm{background:#fff;border-top:1px solid #eee;padding:.65rem 1.5rem;display:flex;justify-content:space-between;font-size:.78rem;color:#888}
+/* fake chart bars */
+.bars{display:flex;align-items:end;gap:8px;height:110px;padding:0 4px}
+.bars .g{flex:1;display:flex;gap:3px;align-items:end}
+.bars .g span{flex:1;border-radius:3px 3px 0 0}
+.bars .g span.a{background:var(--brand)}
+.bars .g span.b{background:#c8ceb8}
+.chart-axis{display:flex;justify-content:space-between;font-size:.7rem;color:#888;padding:.3rem 4px 0}
+</style>
+</head>
+<body>
+
+<div class="admin">
+  <!-- Sidebar -->
+  <aside class="sidebar">
+    <div class="logo"><div class="brand-logo" style="color:#fff"><img src="images/trek-logo.png" alt="Trek Tamil Nadu" height="32"></div></div>
+    <a class="active" href="#"><i class="bi bi-house-door"></i> Dashboard</a>
+    <div class="section">MANAGEMENT</div>
+    <a href="#"><i class="bi bi-bag"></i> Orders <i class="bi bi-chevron-down chev"></i></a>
+    <a href="#"><i class="bi bi-box-seam"></i> Products <i class="bi bi-chevron-down chev"></i></a>
+    <a href="#"><i class="bi bi-tags"></i> Categories</a>
+    <a href="#"><i class="bi bi-clipboard-data"></i> Inventory <i class="bi bi-chevron-down chev"></i></a>
+    <a href="#"><i class="bi bi-people"></i> Customers <i class="bi bi-chevron-down chev"></i></a>
+    <a href="#"><i class="bi bi-arrow-return-left"></i> Returns</a>
+    <a href="#"><i class="bi bi-chat-square-text"></i> Reviews</a>
+    <div class="section">MARKETING</div>
+    <a href="#"><i class="bi bi-ticket-perforated"></i> Coupons <i class="bi bi-chevron-down chev"></i></a>
+    <a href="#"><i class="bi bi-image"></i> Banners <i class="bi bi-chevron-down chev"></i></a>
+    <a href="#"><i class="bi bi-envelope-paper"></i> Newsletter</a>
+    <div class="section">REPORTS &amp; ANALYTICS</div>
+    <a href="#"><i class="bi bi-bar-chart"></i> Sales Reports <i class="bi bi-chevron-down chev"></i></a>
+    <a href="#"><i class="bi bi-graph-up"></i> Inventory Reports <i class="bi bi-chevron-down chev"></i></a>
+    <a href="#"><i class="bi bi-receipt"></i> Tax Reports</a>
+    <a href="#"><i class="bi bi-person-lines-fill"></i> Customer Reports <i class="bi bi-chevron-down chev"></i></a>
+    <a href="#"><i class="bi bi-pie-chart"></i> Analytics <i class="bi bi-chevron-down chev"></i></a>
+    <div class="section">SYSTEM</div>
+    <a href="#"><i class="bi bi-person"></i> Users</a>
+    <a href="#"><i class="bi bi-shield-lock"></i> Roles &amp; Permissions <i class="bi bi-chevron-down chev"></i></a>
+    <a href="#"><i class="bi bi-gear"></i> Settings <i class="bi bi-chevron-down chev"></i></a>
+    <a href="#"><i class="bi bi-journal-text"></i> Activity Logs</a>
+    <div class="logout"><a href="#"><i class="bi bi-box-arrow-right"></i> Logout</a></div>
+  </aside>
+
+  <!-- Main -->
+  <div class="main">
+    <div class="topbar-adm">
+      <button class="ic-btn"><i class="bi bi-list fs-4"></i></button>
+      <div class="search"><i class="bi bi-search text-muted"></i><input placeholder="Search anything..."/></div>
+      <div class="ms-auto d-flex align-items-center gap-3">
+        <button class="ic-btn"><i class="bi bi-bell"></i><span class="b">6</span></button>
+        <button class="ic-btn chat"><i class="bi bi-chat-dots"></i><span class="b">3</span></button>
+        <button class="ic-btn"><i class="bi bi-arrows-fullscreen"></i></button>
+        <div class="d-flex align-items-center gap-2">
+          <div class="avatar" style="background-image:url('https://i.pravatar.cc/80?img=13')"></div>
+          <div class="small"><div class="fw-semibold">Admin</div><div class="text-muted">Super Admin</div></div>
+          <i class="bi bi-caret-down-fill small text-muted"></i>
+        </div>
+      </div>
+    </div>
+
+    <div class="page">
+      <div class="page-head">
+        <div>
+          <h4>Dashboard</h4>
+          <div class="crumb">Home / Dashboard</div>
+        </div>
+        <div class="date-pill"><i class="bi bi-calendar"></i> 22 May 2025 - 28 May 2025</div>
+      </div>
+
+      <!-- Top stats -->
+      <div class="row g-3">
+        <div class="col-md">
+          <div class="stat">
+            <div class="d-flex justify-content-between"><span class="ic" style="background:#4a5d23"><i class="bi bi-currency-rupee"></i></span></div>
+            <h6 class="mt-2">Total Sales</h6>
+            <div class="val">₹2,48,745</div>
+            <div class="delta"><i class="bi bi-arrow-up"></i> 18.6% vs last week</div>
+          </div>
+        </div>
+        <div class="col-md">
+          <div class="stat">
+            <span class="ic" style="background:#3f8ae0"><i class="bi bi-bag"></i></span>
+            <h6 class="mt-2">Total Orders</h6>
+            <div class="val">356</div>
+            <div class="delta"><i class="bi bi-arrow-up"></i> 12.4% vs last week</div>
+          </div>
+        </div>
+        <div class="col-md">
+          <div class="stat">
+            <span class="ic" style="background:#8e6ec3"><i class="bi bi-people"></i></span>
+            <h6 class="mt-2">Total Customers</h6>
+            <div class="val">1,245</div>
+            <div class="delta"><i class="bi bi-arrow-up"></i> 9.3% vs last week</div>
+          </div>
+        </div>
+        <div class="col-md">
+          <div class="stat">
+            <span class="ic" style="background:#f0a028"><i class="bi bi-cart"></i></span>
+            <h6 class="mt-2">Pending Orders</h6>
+            <div class="val">28</div>
+            <div class="delta down"><i class="bi bi-arrow-down"></i> 5.6% vs last week</div>
+          </div>
+        </div>
+        <div class="col-md">
+          <div class="stat">
+            <span class="ic" style="background:#e74c3c"><i class="bi bi-tag"></i></span>
+            <h6 class="mt-2">Low Stock Products</h6>
+            <div class="val">14</div>
+            <div class="delta down"><i class="bi bi-arrow-down"></i> 8.3% vs last week</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Middle row -->
+      <div class="row g-3 mt-1">
+        <div class="col-lg-5">
+          <div class="card-adm">
+            <div class="d-flex justify-content-between"><h6>Sales Overview</h6><span class="pill-dropdown">7 Days ▾</span></div>
+            <svg viewBox="0 0 400 160" width="100%" height="180">
+              <defs><linearGradient id="g1" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#4a5d23" stop-opacity=".35"/><stop offset="100%" stop-color="#4a5d23" stop-opacity="0"/></linearGradient></defs>
+              <path d="M0,110 L50,80 L100,55 L150,90 L200,60 L250,75 L300,50 L350,70 L400,45 L400,160 L0,160 Z" fill="url(#g1)"/>
+              <polyline points="0,110 50,80 100,55 150,90 200,60 250,75 300,50 350,70 400,45" fill="none" stroke="#4a5d23" stroke-width="2.5"/>
+              <polyline points="0,130 50,120 100,95 150,110 200,105 250,90 300,100 350,85 400,90" fill="none" stroke="#bbb" stroke-width="2" stroke-dasharray="4 3"/>
+            </svg>
+            <div class="chart-axis"><span>22 May</span><span>23 May</span><span>24 May</span><span>25 May</span><span>26 May</span><span>27 May</span><span>28 May</span></div>
+          </div>
+        </div>
+
+        <div class="col-lg-4">
+          <div class="card-adm">
+            <h6>Sales by Category</h6>
+            <div class="row align-items-center">
+              <div class="col-5">
+                <svg viewBox="0 0 42 42" width="100%">
+                  <circle cx="21" cy="21" r="15.9" fill="#fff"/>
+                  <circle cx="21" cy="21" r="15.9" fill="transparent" stroke="#4a5d23" stroke-width="7" stroke-dasharray="38.6 61.4" stroke-dashoffset="25"/>
+                  <circle cx="21" cy="21" r="15.9" fill="transparent" stroke="#3f8ae0" stroke-width="7" stroke-dasharray="22.5 77.5" stroke-dashoffset="-13.6"/>
+                  <circle cx="21" cy="21" r="15.9" fill="transparent" stroke="#8e6ec3" stroke-width="7" stroke-dasharray="16.3 83.7" stroke-dashoffset="-36.1"/>
+                  <circle cx="21" cy="21" r="15.9" fill="transparent" stroke="#f0a028" stroke-width="7" stroke-dasharray="12.8 87.2" stroke-dashoffset="-52.4"/>
+                  <circle cx="21" cy="21" r="15.9" fill="transparent" stroke="#bbb" stroke-width="7" stroke-dasharray="9.8 90.2" stroke-dashoffset="-65.2"/>
+                  <text x="21" y="20" text-anchor="middle" font-size="5" font-weight="700" fill="#111">₹2,48,745</text>
+                  <text x="21" y="26" text-anchor="middle" font-size="3" fill="#666">Total Sales</text>
+                </svg>
+              </div>
+              <div class="col-7">
+                <div class="legend-item"><span><span class="dot" style="background:#4a5d23"></span>Backpacks</span><b>38.6%</b></div>
+                <div class="legend-item"><span><span class="dot" style="background:#3f8ae0"></span>Accessories</span><b>22.5%</b></div>
+                <div class="legend-item"><span><span class="dot" style="background:#8e6ec3"></span>Books &amp; Maps</span><b>16.3%</b></div>
+                <div class="legend-item"><span><span class="dot" style="background:#f0a028"></span>Socks &amp; Wear</span><b>12.8%</b></div>
+                <div class="legend-item"><span><span class="dot" style="background:#bbb"></span>Others</span><b>9.8%</b></div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-lg-3">
+          <div class="card-adm">
+            <div class="d-flex justify-content-between"><h6>Recent Orders</h6><a href="#" class="text-brand small">View All</a></div>
+            <div class="order-row"><div>#TNWEC-10086<div class="text-muted" style="font-size:.75rem">22 May, 2025</div></div><div class="text-end"><div class="fw-semibold">₹1,299</div><span class="badge-status b-proc">Processing</span></div></div>
+            <div class="order-row"><div>#TNWEC-10085<div class="text-muted" style="font-size:.75rem">22 May, 2025</div></div><div class="text-end"><div class="fw-semibold">₹1,699</div><span class="badge-status b-ship">Shipped</span></div></div>
+            <div class="order-row"><div>#TNWEC-10084<div class="text-muted" style="font-size:.75rem">21 May, 2025</div></div><div class="text-end"><div class="fw-semibold">₹349</div><span class="badge-status b-del">Delivered</span></div></div>
+            <div class="order-row"><div>#TNWEC-10083<div class="text-muted" style="font-size:.75rem">21 May, 2025</div></div><div class="text-end"><div class="fw-semibold">₹2,098</div><span class="badge-status b-proc">Processing</span></div></div>
+            <div class="order-row"><div>#TNWEC-10082<div class="text-muted" style="font-size:.75rem">20 May, 2025</div></div><div class="text-end"><div class="fw-semibold">₹499</div><span class="badge-status b-can">Cancelled</span></div></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Third row -->
+      <div class="row g-3 mt-1">
+        <div class="col-lg-4">
+          <div class="card-adm">
+            <div class="d-flex justify-content-between"><h6>Top Selling Products</h6><a href="#" class="text-brand small">View All</a></div>
+            <table class="table-mini">
+              <thead><tr><th>Product</th><th>Sold</th><th class="text-end">Revenue</th></tr></thead>
+              <tbody>
+                <tr><td><span class="thumb"><i class="bi bi-bag"></i></span>M001 - 15 Ltr Backpack</td><td>128</td><td class="text-end">₹1,66,272</td></tr>
+                <tr><td><span class="thumb"><i class="bi bi-bag"></i></span>M002 - 25 Ltr Backpack</td><td>96</td><td class="text-end">₹1,62,304</td></tr>
+                <tr><td><span class="thumb"><i class="bi bi-briefcase"></i></span>M004 - Fanny Pack</td><td>74</td><td class="text-end">₹29,526</td></tr>
+                <tr><td><span class="thumb"><i class="bi bi-boot"></i></span>M005 - Anti Leech Socks</td><td>62</td><td class="text-end">₹21,538</td></tr>
+                <tr><td><span class="thumb"><i class="bi bi-emoji-sunglasses"></i></span>M006 - Cap</td><td>55</td><td class="text-end">₹2,695</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <div class="col-lg-4">
+          <div class="card-adm">
+            <div class="d-flex justify-content-between"><h6>Inventory Summary</h6><a href="#" class="text-brand small">View All</a></div>
+            <div class="row text-center g-2 mb-2">
+              <div class="col"><div class="small text-muted">Total Products</div><div class="fw-bold fs-5">92</div></div>
+              <div class="col"><div class="small text-muted">In Stock</div><div class="fw-bold fs-5">72</div></div>
+              <div class="col"><div class="small text-muted text-warning">Low Stock</div><div class="fw-bold fs-5 text-warning">14</div></div>
+              <div class="col"><div class="small text-muted text-danger">Out of Stock</div><div class="fw-bold fs-5 text-danger">6</div></div>
+            </div>
+            <div class="fw-semibold small mt-2 mb-1">Low Stock Alerts</div>
+            <div class="low-item"><span>Anti Leech Socks Green (1Set)</span><span>Stock: 3 <span class="low-tag ms-2">Low Stock</span></span></div>
+            <div class="low-item"><span>Shoe Bag Grey</span><span>Stock: 4 <span class="low-tag ms-2">Low Stock</span></span></div>
+            <div class="low-item"><span>Fanny Pack</span><span>Stock: 5 <span class="low-tag ms-2">Low Stock</span></span></div>
+            <div class="low-item"><span>Cap</span><span>Stock: 6 <span class="low-tag ms-2">Low Stock</span></span></div>
+          </div>
+        </div>
+
+        <div class="col-lg-4">
+          <div class="card-adm">
+            <div class="d-flex justify-content-between"><h6>Sales Analytics</h6><a href="#" class="text-brand small">View Report</a></div>
+            <div class="row g-2 text-center mb-2">
+              <div class="col"><div class="small text-muted">Daily Average Sales</div><div class="fw-bold">₹35,535</div><div class="small text-success">↑ 15.6%</div></div>
+              <div class="col"><div class="small text-muted">Monthly Average</div><div class="fw-bold">₹10,65,982</div><div class="small text-success">↑ 10.3%</div></div>
+              <div class="col"><div class="small text-muted">Avg. Order Value</div><div class="fw-bold">₹698</div><div class="small text-success">↑ 6.8%</div></div>
+            </div>
+            <div class="small mb-1"><span class="dot d-inline-block" style="width:10px;height:10px;background:#4a5d23;border-radius:2px"></span> This Month <span class="dot d-inline-block ms-3" style="width:10px;height:10px;background:#c8ceb8;border-radius:2px"></span> Last Month</div>
+            <div class="bars">
+              <div class="g"><span class="a" style="height:70%"></span><span class="b" style="height:55%"></span></div>
+              <div class="g"><span class="a" style="height:80%"></span><span class="b" style="height:55%"></span></div>
+              <div class="g"><span class="a" style="height:55%"></span><span class="b" style="height:55%"></span></div>
+              <div class="g"><span class="a" style="height:60%"></span><span class="b" style="height:55%"></span></div>
+              <div class="g"><span class="a" style="height:65%"></span><span class="b" style="height:55%"></span></div>
+              <div class="g"><span class="a" style="height:50%"></span><span class="b" style="height:55%"></span></div>
+              <div class="g"><span class="a" style="height:65%"></span><span class="b" style="height:55%"></span></div>
+            </div>
+            <div class="chart-axis"><span>22 May</span><span>23 May</span><span>24 May</span><span>25 May</span><span>26 May</span><span>27 May</span><span>28 May</span></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Mini stats -->
+      <div class="row g-3 mt-1">
+        <div class="col-md"><div class="mini-stat"><span class="ic" style="background:#4a5d23"><i class="bi bi-piggy-bank"></i></span><div><div class="lbl">Total Revenue</div><div class="val">₹2,48,745</div></div></div></div>
+        <div class="col-md"><div class="mini-stat"><span class="ic" style="background:#8e6ec3"><i class="bi bi-receipt"></i></span><div><div class="lbl">Total Tax Collected</div><div class="val">₹22,387</div></div></div></div>
+        <div class="col-md"><div class="mini-stat"><span class="ic" style="background:#3f8ae0"><i class="bi bi-truck"></i></span><div><div class="lbl">Total Shipping Charge</div><div class="val">₹11,245</div></div></div></div>
+        <div class="col-md"><div class="mini-stat"><span class="ic" style="background:#f0a028"><i class="bi bi-tag"></i></span><div><div class="lbl">Total Discounts</div><div class="val">₹15,875</div></div></div></div>
+        <div class="col-md"><div class="mini-stat"><span class="ic" style="background:#e74c3c"><i class="bi bi-arrow-counterclockwise"></i></span><div><div class="lbl">Refunds</div><div class="val">₹4,250</div></div></div></div>
+      </div>
+    </div>
+
+    <div class="foot-adm">
+      <div>© 2025 Trek Tamil Nadu. All rights reserved.</div>
+      <div>Version 1.0.0</div>
+    </div>
+  </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+<script src="js/app.js"></script>
+</body>
+</html>

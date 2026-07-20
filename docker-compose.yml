@@ -1,0 +1,5 @@
+services:
+  trek:
+    build: .
+    ports:
+      - "9090:80"
