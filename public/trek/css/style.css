@@ -71,6 +71,14 @@ header .searchbar input{padding:.48rem .25rem;font-size:.85rem}
 .feature-strip .f-title{font-weight:600;font-size:.92rem}
 .feature-strip .f-sub{font-size:.78rem;color:var(--muted)}
 
+/* Track Your Shipment */
+.track-section{background:var(--brand-light);padding:2.5rem 0;margin:2.5rem 0;width:100%}
+.track-title{font-weight:800;font-size:1.3rem;margin:0 0 .25rem}
+.track-sub{font-size:.88rem;color:var(--muted);margin:0}
+.track-form{display:flex;gap:.6rem}
+.track-form .form-control{border-radius:8px;border:1px solid #ddd;padding:.7rem 1rem;font-size:.9rem}
+.track-form .btn-brand{padding:.7rem 1.8rem;border-radius:8px;white-space:nowrap}
+
 /* Section title */
 .section-title{text-align:center;font-weight:800;letter-spacing:2px;margin:2.5rem 0 1.5rem;font-size:1.35rem}
 .section-title.left{text-align:left;letter-spacing:1px}
