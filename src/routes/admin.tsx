@@ -2,7 +2,7 @@ import { createFileRoute } from "@tanstack/react-router";
 import { trekPages } from "@/lib/trek-pages";
 import "@/styles/trek.css";
 
-export const Route = createFileRoute("/admin")({
+export const Route = createFileRoute()({
   head: () => ({
     meta: [
       { title: "Admin Dashboard — Trek Tamil Nadu" },
