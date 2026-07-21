@@ -373,6 +373,41 @@
     });
   }
 
+  function initImageZoom() {
+    var mains = qsa('.pd-main');
+    if (!mains.length) return;
+    var lens = document.createElement('div');
+    lens.className = 'zoom-lens';
+    lens.style.position = 'fixed';
+    mains.forEach(function (main) {
+      var img = main.querySelector('img');
+      if (!img || !img.src) return;
+      lens.style.backgroundImage = 'url(' + img.src + ')';
+      var zoom = 3;
+      lens.style.backgroundSize = zoom * 100 + '%';
+      var size = 140;
+      main.addEventListener('mousemove', function (e) {
+        var ir = img.getBoundingClientRect();
+        var mx = e.clientX - ir.left;
+        var my = e.clientY - ir.top;
+        if (mx < 0 || my < 0 || mx > ir.width || my > ir.height) {
+          lens.style.display = 'none';
+          return;
+        }
+        var pctX = (mx / ir.width) * 100;
+        var pctY = (my / ir.height) * 100;
+        lens.style.display = 'block';
+        lens.style.left = (e.clientX - size / 2) + 'px';
+        lens.style.top = (e.clientY - size / 2) + 'px';
+        lens.style.backgroundPosition = pctX + '% ' + pctY + '%';
+      });
+      main.addEventListener('mouseleave', function () {
+        lens.style.display = 'none';
+      });
+    });
+    document.body.appendChild(lens);
+  }
+
   function initAdminSidebar() {
     var sidebarLinks = qsa('.sidebar a:not(.logout a)');
     sidebarLinks.forEach(function (link) {
@@ -862,6 +897,7 @@
     initAdminChartBars();
     initAdminPagination();
     initCartDrawer();
+    initImageZoom();
   }
 
   if (document.readyState === 'loading') {
