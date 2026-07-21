@@ -78,6 +78,13 @@ header .searchbar input{padding:.48rem .25rem;font-size:.85rem}
 .cat-item{text-align:center}
 .cat-item p{margin-top:.65rem;font-size:.9rem;font-weight:500}
 
+/* Mega dropdown */
+.dropdown-mega{display:flex;flex-direction:row;gap:.25rem;min-width:520px;border-radius:10px;border:1px solid #e8e8e8;box-shadow:0 8px 28px rgba(0,0,0,.1);padding:.75rem!important}
+.dropdown-mega li{flex:1;list-style:none}
+.dropdown-mega .dropdown-item{border-radius:6px;padding:.5rem .6rem;font-size:.85rem;font-weight:500;color:#333;white-space:nowrap;display:flex;align-items:center;gap:6px}
+.dropdown-mega .dropdown-item:hover{background:#eef1e6;color:var(--brand)}
+.dropdown-mega .dropdown-item img{width:22px;height:22px;object-fit:contain}
+
 /* Product card */
 .product-card{background:#fff;border:1px solid #eee;border-radius:8px;padding:1rem;position:relative;height:100%}
 .product-card .fav{position:absolute;top:.75rem;right:.75rem;color:#888;background:transparent;border:0}
