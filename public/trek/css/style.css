@@ -49,17 +49,20 @@ header .searchbar input{padding:.48rem .25rem;font-size:.85rem}
 .icon-btn:hover{background:#f3f5ef}
 .icon-btn .badge-count{position:absolute;top:-2px;right:-4px;background:var(--brand);color:#fff;font-size:.65rem;border-radius:50%;width:16px;height:16px;display:inline-flex;align-items:center;justify-content:center}
 
-/* Hero */
-.hero{position:relative;color:#fff;min-height:560px;background:#333 center/cover no-repeat}
-.hero::after{content:"";position:absolute;inset:0;background:linear-gradient(90deg,rgba(0,0,0,.55),rgba(0,0,0,.15))}
-.hero .container{position:relative;z-index:2;padding:6rem 1rem}
-.hero h1{font-weight:800;font-size:3.8rem;line-height:1.02;letter-spacing:.5px;max-width:680px}
-.hero p{font-size:1.05rem;max-width:540px}
-.hero-arrow{position:absolute;top:50%;transform:translateY(-50%);width:42px;height:42px;border-radius:50%;background:rgba(255,255,255,.9);color:#111;display:inline-flex;align-items:center;justify-content:center;z-index:3;border:0}
-.hero-arrow.left{left:16px}.hero-arrow.right{right:16px}
-.hero-dots{position:absolute;bottom:18px;left:50%;transform:translateX(-50%);z-index:3;display:flex;gap:6px}
-.hero-dots span{width:22px;height:3px;background:rgba(255,255,255,.5);border-radius:2px}
-.hero-dots span.active{background:#fff}
+/* Hero Carousel */
+.hero-carousel{min-height:560px}
+.hero-carousel .carousel-inner,.hero-carousel .carousel-item{min-height:560px}
+.hero-carousel .carousel-item img{min-height:560px;object-fit:cover}
+.hero-overlay{position:absolute;inset:0;z-index:1;background:linear-gradient(90deg,rgba(0,0,0,.3),rgba(0,0,0,.05))}
+.hero-caption{position:absolute;left:5%!important;right:auto!important;bottom:auto!important;top:50%;transform:translateY(-50%);z-index:2;text-align:left;padding:2rem 1rem}
+.hero-caption h1{font-weight:800;font-size:3.8rem;line-height:1.02;letter-spacing:.5px;max-width:680px}
+.hero-caption p{font-size:1.05rem;max-width:540px}
+.hero-carousel .carousel-indicators{bottom:18px;z-index:3}
+.hero-carousel .carousel-indicators button{width:22px;height:3px;border-radius:2px;border:0;margin:0 3px}
+.hero-carousel .carousel-control-prev,.hero-carousel .carousel-control-next{width:42px;height:42px;top:50%;transform:translateY(-50%);border-radius:50%;background:rgba(255,255,255,.9);color:#111;opacity:1;font-size:1.2rem;bottom:auto}
+.hero-carousel .carousel-control-prev{left:16px}
+.hero-carousel .carousel-control-next{right:16px}
+.hero-carousel .carousel-control-prev-icon,.hero-carousel .carousel-control-next-icon{filter:invert(1)}
 
 /* Feature strip */
 .feature-strip{background:#fff;border:1px solid #eee;border-radius:16px;box-shadow:0 8px 28px rgba(0,0,0,.08);padding:1.25rem 1.5rem;margin-top:-52px;position:relative;z-index:5}
@@ -74,7 +77,7 @@ header .searchbar input{padding:.48rem .25rem;font-size:.85rem}
 
 /* Category circles */
 .cat-circle{width:96px;height:96px;border-radius:50%;background:#eef1e6;display:flex;align-items:center;justify-content:center;overflow:hidden;margin:0 auto}
-.cat-circle img{width:78%;height:78%;object-fit:contain}
+.cat-circle img{width:100%;height:100%;object-fit:cover}
 .cat-item{text-align:center}
 .cat-item p{margin-top:.65rem;font-size:.9rem;font-weight:500}
 

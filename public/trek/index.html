@@ -69,16 +69,50 @@
 </header>
 
 <!-- Hero -->
-<section class="hero" style="background-image:url('https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?auto=format&fit=crop&w=1600&q=80')">
-  <button class="hero-arrow left"><i class="bi bi-chevron-left"></i></button>
-  <button class="hero-arrow right"><i class="bi bi-chevron-right"></i></button>
-  <div class="container">
-    <h1>EXPLORE<br/>TAMIL NADU</h1>
-    <p class="mt-3">Gear Up for Your Next Adventure</p>
-    <a href="#" class="btn btn-brand mt-3">Shop Now <i class="bi bi-arrow-right ms-1"></i></a>
+<div id="heroCarousel" class="carousel slide hero-carousel" data-bs-ride="carousel">
+  <div class="carousel-indicators">
+    <button type="button" data-bs-target="#heroCarousel" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
+    <button type="button" data-bs-target="#heroCarousel" data-bs-slide-to="1" aria-label="Slide 2"></button>
+    <button type="button" data-bs-target="#heroCarousel" data-bs-slide-to="2" aria-label="Slide 3"></button>
   </div>
-  <div class="hero-dots"><span class="active"></span><span></span><span></span><span></span></div>
-</section>
+  <div class="carousel-inner">
+    <div class="carousel-item active">
+      <div class="hero-overlay"></div>
+      <img src="images/Trek TN Banners 2560x933px.jpg.jpeg" class="d-block w-100" alt="Trek Tamil Nadu">
+      <!-- <div class="carousel-caption hero-caption">
+        <h1>EXPLORE<br/>TAMIL NADU</h1>
+        <p>Gear Up for Your Next Adventure</p>
+        <a href="#" class="btn btn-brand mt-3">Shop Now <i class="bi bi-arrow-right ms-1"></i></a>
+      </div> -->
+    </div>
+    <div class="carousel-item">
+      <div class="hero-overlay"></div>
+      <img src="https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?auto=format&fit=crop&w=1600&h=584&q=80" class="d-block w-100" alt="Trek Tamil Nadu">
+      <div class="carousel-caption hero-caption">
+        <h1>EXPLORE<br/>TAMIL NADU</h1>
+        <p>Gear Up for Your Next Adventure</p>
+        <a href="#" class="btn btn-brand mt-3">Shop Now <i class="bi bi-arrow-right ms-1"></i></a>
+      </div>
+    </div>
+    <div class="carousel-item">
+      <div class="hero-overlay"></div>
+      <img src="https://images.unsplash.com/photo-1506905925346-21bda4d32df4?auto=format&fit=crop&w=1600&h=584&q=80" class="d-block w-100" alt="Trek Tamil Nadu">
+      <div class="carousel-caption hero-caption">
+        <h1>EXPLORE<br/>TAMIL NADU</h1>
+        <p>Gear Up for Your Next Adventure</p>
+        <a href="#" class="btn btn-brand mt-3">Shop Now <i class="bi bi-arrow-right ms-1"></i></a>
+      </div>
+    </div>
+  </div>
+  <button class="carousel-control-prev" type="button" data-bs-target="#heroCarousel" data-bs-slide="prev">
+    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+    <span class="visually-hidden">Previous</span>
+  </button>
+  <button class="carousel-control-next" type="button" data-bs-target="#heroCarousel" data-bs-slide="next">
+    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+    <span class="visually-hidden">Next</span>
+  </button>
+</div>
 
 <div class="container">
   <!-- Feature strip -->
@@ -114,13 +148,12 @@
   <!-- Categories -->
   <h2 class="section-title">SHOP BY CATEGORY</h2>
   <div class="row g-3 justify-content-center">
-    <div class="col-6 col-md-3 col-lg cat-item"><div class="cat-circle"><img src="https://cdn-icons-png.flaticon.com/512/1170/1170627.png" alt="Backpacks"/></div><p>Backpacks</p></div>
-    <div class="col-6 col-md-3 col-lg cat-item"><div class="cat-circle"><img src="https://cdn-icons-png.flaticon.com/512/2331/2331947.png" alt="Bags"/></div><p>Bags &amp; Pouches</p></div>
-    <div class="col-6 col-md-3 col-lg cat-item"><div class="cat-circle"><img src="https://cdn-icons-png.flaticon.com/512/2589/2589903.png" alt="Footwear"/></div><p>Footwear</p></div>
-    <div class="col-6 col-md-3 col-lg cat-item"><div class="cat-circle"><img src="https://cdn-icons-png.flaticon.com/512/3159/3159066.png" alt="Accessories"/></div><p>Accessories</p></div>
-    <div class="col-6 col-md-3 col-lg cat-item"><div class="cat-circle"><img src="https://cdn-icons-png.flaticon.com/512/2702/2702154.png" alt="Books"/></div><p>Books &amp; Guides</p></div>
-    <div class="col-6 col-md-3 col-lg cat-item"><div class="cat-circle"><img src="https://cdn-icons-png.flaticon.com/512/1041/1041916.png" alt="Socks"/></div><p>Socks</p></div>
-    <div class="col-6 col-md-3 col-lg cat-item"><div class="cat-circle"><img src="https://cdn-icons-png.flaticon.com/512/45/45010.png" alt="Caps"/></div><p>Caps</p></div>
+    <div class="col-6 col-md-3 col-lg cat-item"><div class="cat-circle"><img src="https://images.unsplash.com/photo-1622560480605-d83c853bc5c3?w=200&h=200&fit=crop" alt="Backpacks"/></div><p>Backpacks</p></div>
+    <div class="col-6 col-md-3 col-lg cat-item"><div class="cat-circle"><img src="https://images.unsplash.com/photo-1547949003-9792a18a2601?w=200&h=200&fit=crop" alt="Bags"/></div><p>Bags &amp; Pouches</p></div>
+    <div class="col-6 col-md-3 col-lg cat-item"><div class="cat-circle"><img src="https://images.unsplash.com/photo-1586350977771-b3b0abd50c82?w=200&h=200&fit=crop" alt="Socks"/></div><p>Socks</p></div>
+    <div class="col-6 col-md-3 col-lg cat-item"><div class="cat-circle"><img src="https://images.unsplash.com/photo-1588850561407-ed78c282e89b?w=200&h=200&fit=crop" alt="Caps"/></div><p>Caps</p></div>
+    <div class="col-6 col-md-3 col-lg cat-item"><div class="cat-circle"><img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT_OkswEsIwqgnVD9cuOK9emiwWBrElnZokBQ0Payd1Aa6q7lvolWisyIqe&s=10" alt="Books"/></div><p>Books &amp; Maps</p></div>
+    <div class="col-6 col-md-3 col-lg cat-item"><div class="cat-circle"><img src="https://images.unsplash.com/photo-1577805947697-89e18249d767?w=200&h=200&fit=crop" alt="Accessories"/></div><p>Accessories</p></div>
   </div>
 
   <!-- Featured -->
@@ -135,7 +168,7 @@
       <div class="col-6 col-md-4 col-lg">
         <div class="product-card">
           <button class="fav"><i class="bi bi-heart"></i></button>
-          <div class="p-img"><a href="product.html"><img src="https://images.unsplash.com/photo-1553062407-98eeb64c6a62?w=400" alt="Backpack"/></a></div>
+          <div class="p-img"><a href="product.html"><img src="images/Laptop-Bag-Backpack_Original.jpg" alt="Backpack"/></a></div>
           <div class="p-code">M001</div>
           <div class="p-name"><a href="product.html" class="text-dark">15 Ltr Backpack with Glow Logo</a></div>
           <div class="p-price">₹1,299</div>
@@ -145,7 +178,7 @@
       <div class="col-6 col-md-4 col-lg">
         <div class="product-card">
           <button class="fav"><i class="bi bi-heart"></i></button>
-          <div class="p-img"><img src="https://images.unsplash.com/photo-1622560480605-d83c853bc5c3?w=400" alt="Backpack"/></div>
+          <div class="p-img"><img src="images/3EOHgGf8_aff67eac6bde49548adce848cda349cc.webp" alt="Backpack"/></div>
           <div class="p-code">M002</div>
           <div class="p-name">25 Ltr Backpack with Rain Cover</div>
           <div class="p-price">₹1,799</div>
@@ -165,7 +198,7 @@
       <div class="col-6 col-md-4 col-lg">
         <div class="product-card">
           <button class="fav"><i class="bi bi-heart"></i></button>
-          <div class="p-img"><img src="https://images.unsplash.com/photo-1586350977771-b3b0abd50c82?w=400" alt="Socks"/></div>
+          <div class="p-img"><img src="images/images.jpg" alt="Socks"/></div>
           <div class="p-code">M005</div>
           <div class="p-name">Anti Leech Socks Green (1Set)</div>
           <div class="p-price">₹299</div>
@@ -175,7 +208,7 @@
       <div class="col-6 col-md-4 col-lg">
         <div class="product-card">
           <button class="fav"><i class="bi bi-heart"></i></button>
-          <div class="p-img"><img src="https://images.unsplash.com/photo-1588850561407-ed78c282e89b?w=400" alt="Cap"/></div>
+          <div class="p-img"><img src="images/download.webp" alt="Cap"/></div>
           <div class="p-code">M006</div>
           <div class="p-name">Cap</div>
           <div class="p-price">₹49</div>
