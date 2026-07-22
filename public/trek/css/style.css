@@ -9,7 +9,7 @@
   --line:#e6e6e6;
 }
 *{box-sizing:border-box}
-body{font-family:'Inter','Segoe UI',system-ui,sans-serif;color:var(--ink);background:#fff}
+body{font-family:'Ubuntu',sans-serif;color:var(--ink);background:#fff}
 a{text-decoration:none;color:inherit}
 .btn-brand{background:var(--brand);color:#fff;border:none;border-radius:6px;padding:.65rem 1.3rem;font-weight:600;transition:background .2s ease}
 .btn-brand:hover{background:var(--brand-dark);color:#fff}
@@ -72,7 +72,7 @@ header .searchbar input{padding:.48rem .25rem;font-size:.85rem}
 .feature-strip .f-sub{font-size:.78rem;color:var(--muted)}
 
 /* Track Your Shipment */
-.track-section{background:var(--brand-light);padding:4.5rem 0;margin:2.5rem 0;width:100%}
+.track-section{background:var(--brand-light);padding:4.5rem 0;margin:-2rem 0;width:100%;height: 100%;}
 .track-title{font-weight:800;font-size:1.3rem;margin:0 0 .25rem}
 .track-sub{font-size:.88rem;color:var(--muted);margin:0}
 .track-form{display:flex;gap:.6rem}
