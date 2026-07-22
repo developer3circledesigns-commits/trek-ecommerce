@@ -43,6 +43,64 @@
     setTimeout(function () { t.style.opacity = '0'; }, 2500);
   }
 
+  function initSearchTypewriter() {
+    var input = qs('.searchbar input');
+    if (!input) return;
+    var products = [
+      '15 Ltr Backpack with Glow Logo',
+      '25 Ltr Backpack with Rain Cover',
+      'Shoe Bag Grey',
+      'Fanny Pack',
+      'Anti Leech Socks (Green)',
+      'Trekking Cap',
+      'Atlas',
+      "Flutter's Note",
+      "Feathers Note"
+    ];
+    var prefix = 'Search for "';
+    var suffix = '"';
+    var idx = 0, charIdx = 0, isDeleting = false, showPrefix = true;
+    function type() {
+      if (showPrefix) {
+        input.placeholder = prefix.slice(0, charIdx + 1);
+        charIdx++;
+        if (charIdx === prefix.length) {
+          showPrefix = false;
+          charIdx = 0;
+          setTimeout(type, 200);
+          return;
+        }
+        setTimeout(type, 50);
+        return;
+      }
+      var current = products[idx];
+      if (!isDeleting) {
+        charIdx++;
+        input.placeholder = prefix + current.slice(0, charIdx);
+        if (charIdx === current.length) {
+          input.placeholder = prefix + current + suffix;
+          isDeleting = true;
+          setTimeout(type, 2000);
+          return;
+        }
+        setTimeout(type, 80 + Math.random() * 60);
+      } else {
+        charIdx--;
+        input.placeholder = prefix + current.slice(0, charIdx);
+        if (charIdx === 0) {
+          isDeleting = false;
+          showPrefix = true;
+          charIdx = 0;
+          idx = (idx + 1) % products.length;
+          setTimeout(type, 200);
+          return;
+        }
+        setTimeout(type, 40 + Math.random() * 30);
+      }
+    }
+    setTimeout(type, 1000);
+  }
+
   function initSearch() {
     qsa('.searchbar input, .searchbar-lg input').forEach(function (input) {
       input.addEventListener('keydown', function (e) {
@@ -862,6 +920,7 @@
   function init() {
     updateBadge();
     initSearch();
+    initSearchTypewriter();
     initHeartToggle();
     initAddToCart();
     initHeroSlider();
