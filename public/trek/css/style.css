@@ -112,10 +112,11 @@ header{position:relative}
 .nav-item.dropdown:hover .dropdown-menu{display:grid!important}
 
 /* Product card */
-.product-card{background:#fff;border:1px solid #eee;border-radius:8px;padding:1rem;position:relative;height:100%}
+.product-card{cursor:pointer;background:#fff;border:1px solid #eee;border-radius:8px;padding:1rem;position:relative;height:100%}
+.product-card:hover{border-color:var(--brand)}
 .product-card .fav{position:absolute;top:.75rem;right:.75rem;color:#888;background:transparent;border:0}
-.product-card .p-img{height:170px;display:flex;align-items:center;justify-content:center;background:#fafafa;border-radius:6px;overflow:hidden}
-.product-card .p-img img{max-height:100%;max-width:100%;object-fit:contain}
+.product-card .p-img{display:flex;align-items:center;justify-content:center;background:#fafafa;border-radius:6px;overflow:hidden}
+.product-card .p-img img{max-width:100%}
 .product-card .p-code{font-size:.75rem;color:var(--muted);margin-top:.9rem}
 .product-card .p-name{font-size:.9rem;font-weight:600;margin:.2rem 0 .4rem;line-height:1.25;min-height:2.4em}
 .product-card .p-price{font-weight:700;color:#111}
@@ -159,10 +160,10 @@ header{position:relative}
 
 /* Product detail */
 .pd-thumbs{display:flex;flex-direction:column;gap:.6rem}
-.pd-thumbs img{width:72px;height:72px;object-fit:contain;border:1px solid #eee;border-radius:6px;padding:4px;cursor:pointer;background:#fff}
+.pd-thumbs img{width:90px;height:90px;object-fit:contain;border:1px solid #eee;border-radius:6px;padding:4px;cursor:pointer;background:#fff}
 .pd-thumbs img.active{border-color:var(--brand)}
-.pd-main{background:#fafafa;border-radius:8px;padding:1rem;display:flex;align-items:center;justify-content:center;min-height:420px;position:relative;cursor:crosshair}
-.pd-main img{max-height:400px;max-width:100%;object-fit:contain;pointer-events:none;user-select:none}
+.pd-main{background:#fafafa;border-radius:8px;padding:1rem;display:flex;align-items:center;justify-content:center;position:relative;cursor:crosshair}
+.pd-main img{max-width:100%;pointer-events:none;user-select:none}
 .zoom-lens{position:fixed;width:140px;height:140px;border-radius:50%;border:2px solid rgba(255,255,255,.5);background:rgba(255,255,255,.2);backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);box-shadow:0 8px 32px rgba(0,0,0,.18);pointer-events:none;z-index:9999;display:none;background-repeat:no-repeat;transform:translate(0,0)}
 .pd-code{color:var(--muted);font-size:.85rem}
 .pd-title{font-weight:700;font-size:1.55rem;margin:.3rem 0 .5rem}

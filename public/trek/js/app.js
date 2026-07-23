@@ -337,27 +337,51 @@
 
   function initImageGallery() {
     var thumbs = qsa('.pd-thumbs img');
-    var main = qs('.pd-main img');
+    var mainContainer = qs('.pd-main');
+    var main = mainContainer ? mainContainer.querySelector('img') : null;
     if (!thumbs.length || !main) return;
+
+    var lens = document.createElement('div');
+    lens.className = 'zoom-lens';
+    lens.style.backgroundSize = '300%';
+    document.body.appendChild(lens);
+
+    function updateZoomSrc(src) {
+      lens.style.backgroundImage = 'url(' + src + ')';
+    }
+    updateZoomSrc(main.src);
 
     thumbs.forEach(function (thumb) {
       thumb.addEventListener('click', function () {
         qsa('.pd-thumbs img').forEach(function (t) { t.classList.remove('active'); });
         this.classList.add('active');
-        main.src = this.src.replace('w=200', 'w=800');
+        var newSrc = this.src.replace('w=200', 'w=800');
+        main.src = newSrc;
+        updateZoomSrc(newSrc);
       });
     });
 
-    main.parentElement.addEventListener('mousemove', function (e) {
-      var rect = this.getBoundingClientRect();
-      var x = ((e.clientX - rect.left) / rect.width) * 100;
-      var y = ((e.clientY - rect.top) / rect.height) * 100;
-      main.style.transformOrigin = x + '% ' + y + '%';
-      main.style.transform = 'scale(1.5)';
+    var zoom = 3;
+    var size = 140;
+
+    mainContainer.addEventListener('mousemove', function (e) {
+      var ir = main.getBoundingClientRect();
+      var mx = e.clientX - ir.left;
+      var my = e.clientY - ir.top;
+      if (mx < 0 || my < 0 || mx > ir.width || my > ir.height) {
+        lens.style.display = 'none';
+        return;
+      }
+      var pctX = (mx / ir.width) * 100;
+      var pctY = (my / ir.height) * 100;
+      lens.style.display = 'block';
+      lens.style.left = (e.clientX - size / 2) + 'px';
+      lens.style.top = (e.clientY - size / 2) + 'px';
+      lens.style.backgroundPosition = pctX + '% ' + pctY + '%';
     });
 
-    main.parentElement.addEventListener('mouseleave', function () {
-      main.style.transform = 'scale(1)';
+    mainContainer.addEventListener('mouseleave', function () {
+      lens.style.display = 'none';
     });
   }
 
@@ -431,40 +455,7 @@
     });
   }
 
-  function initImageZoom() {
-    var mains = qsa('.pd-main');
-    if (!mains.length) return;
-    var lens = document.createElement('div');
-    lens.className = 'zoom-lens';
-    lens.style.position = 'fixed';
-    mains.forEach(function (main) {
-      var img = main.querySelector('img');
-      if (!img || !img.src) return;
-      lens.style.backgroundImage = 'url(' + img.src + ')';
-      var zoom = 3;
-      lens.style.backgroundSize = zoom * 100 + '%';
-      var size = 140;
-      main.addEventListener('mousemove', function (e) {
-        var ir = img.getBoundingClientRect();
-        var mx = e.clientX - ir.left;
-        var my = e.clientY - ir.top;
-        if (mx < 0 || my < 0 || mx > ir.width || my > ir.height) {
-          lens.style.display = 'none';
-          return;
-        }
-        var pctX = (mx / ir.width) * 100;
-        var pctY = (my / ir.height) * 100;
-        lens.style.display = 'block';
-        lens.style.left = (e.clientX - size / 2) + 'px';
-        lens.style.top = (e.clientY - size / 2) + 'px';
-        lens.style.backgroundPosition = pctX + '% ' + pctY + '%';
-      });
-      main.addEventListener('mouseleave', function () {
-        lens.style.display = 'none';
-      });
-    });
-    document.body.appendChild(lens);
-  }
+
 
   function initAdminSidebar() {
     var sidebarLinks = qsa('.sidebar a:not(.logout a)');
@@ -774,6 +765,29 @@
     }
   }
 
+  function initProductCardLinks() {
+    var productLinks = {
+      M001: 'product.html',
+      M002: 'product-backpack-25ltr.html',
+      M003: 'product-shoe-bag.html',
+      M004: 'product-fanny-pack.html',
+      M005: 'product-socks.html',
+      M006: 'product-cap.html',
+      M007: 'product-atlas.html',
+      M008: 'product-flutters-note.html',
+      M009: 'product-feathers-note.html'
+    };
+    qsa('.product-card').forEach(function (card) {
+      card.addEventListener('click', function (e) {
+        if (e.target.closest('a') || e.target.closest('.fav') || e.target.closest('.cart-btn')) return;
+        var codeEl = qs('.p-code', this);
+        if (!codeEl) return;
+        var url = productLinks[codeEl.textContent.trim()];
+        if (url) window.location.href = url;
+      });
+    });
+  }
+
   function initProductViewAll() {
     qsa('.fw-bold a[href="#"]').forEach(function (link) {
       link.addEventListener('click', function (e) {
@@ -955,8 +969,8 @@
     initAdminStatCards();
     initAdminChartBars();
     initAdminPagination();
+    initProductCardLinks();
     initCartDrawer();
-    initImageZoom();
   }
 
   if (document.readyState === 'loading') {
