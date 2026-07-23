@@ -1,9 +1,21 @@
 (function () {
   'use strict';
 
-  const APP = {
+  var productLinks = {
+    M001: 'product.html',
+    M002: 'product-backpack-25ltr.html',
+    M003: 'product-shoe-bag.html',
+    M004: 'product-fanny-pack.html',
+    M005: 'product-socks.html',
+    M006: 'product-cap.html',
+    M007: 'product-atlas.html',
+    M008: 'product-flutters-note.html',
+    M009: 'product-feathers-note.html'
+  };
+
+  var APP = {
     cart: JSON.parse(localStorage.getItem('trekCart')) || [],
-    wishlist: JSON.parse(localStorage.getItem('trekWishlist')) || [],
+    wishlist: (JSON.parse(localStorage.getItem('trekWishlist')) || []).map(function (item) { return typeof item === 'string' ? { name: item, code: '', price: 0 } : item; }),
     newsletterSubs: JSON.parse(localStorage.getItem('trekNewsletter')) || [],
     orders: JSON.parse(localStorage.getItem('trekOrders')) || [],
     heroInterval: null,
@@ -20,13 +32,25 @@
 
   APP.saveWishlist = function () {
     localStorage.setItem('trekWishlist', JSON.stringify(APP.wishlist));
+    updateWishlistBadge();
   };
 
   function updateBadge() {
-    const count = APP.cart.reduce((a, b) => a + b.qty, 0);
-    qsa('.badge-count').forEach(function (el) {
-      el.textContent = count;
-    });
+    var count = APP.cart.reduce(function (a, b) { return a + b.qty; }, 0);
+    var cartBtn = qs('.icon-btn .bi-bag');
+    if (cartBtn) {
+      var badge = cartBtn.closest('.icon-btn').querySelector('.badge-count');
+      if (badge) badge.textContent = count;
+    }
+  }
+
+  function updateWishlistBadge() {
+    var count = APP.wishlist.length;
+    var heartBtn = qs('.icon-btn .bi-heart, .icon-btn .bi-heart-fill');
+    if (heartBtn) {
+      var badge = heartBtn.closest('.icon-btn').querySelector('.badge-count');
+      if (badge) badge.textContent = count;
+    }
   }
 
   function toast(msg, type) {
@@ -120,7 +144,12 @@
   }
 
   function initHeartToggle() {
-    qsa('.fav, .icon-btn .bi-heart').forEach(function (el) {
+    qsa('.fav').forEach(function (el) {
+      var code = el.closest('.product-card') ? (qs('.p-code', el.closest('.product-card')) || {}).textContent : '';
+      var icon = el.querySelector('.bi-heart, .bi-heart-fill');
+      if (icon && code && APP.wishlist.some(function (item) { return item.code === code; })) {
+        icon.className = 'bi bi-heart-fill';
+      }
       el.addEventListener('click', function (e) {
         e.stopPropagation();
         var icon = this.classList.contains('bi-heart') ? this : this.querySelector('.bi-heart, .bi-heart-fill');
@@ -134,12 +163,47 @@
         icon.className = isFill ? 'bi bi-heart' : 'bi bi-heart-fill';
         var card = this.closest('.product-card');
         var name = card ? (qs('.p-name', card) || {}).textContent : 'Item';
+        var code = card ? (qs('.p-code', card) || {}).textContent : '';
+        var priceText = card ? (qs('.p-price', card) || {}).textContent : '0';
+        var price = parseFloat(priceText.replace(/[₹,]/g, '')) || 0;
         if (!isFill) {
-          if (!APP.wishlist.includes(name)) APP.wishlist.push(name);
+          if (!APP.wishlist.some(function (item) { return item.code === code; })) {
+            APP.wishlist.push({ name: name.trim(), code: code.trim(), price: price });
+          }
           toast('Added "' + name.trim() + '" to wishlist');
         } else {
-          APP.wishlist = APP.wishlist.filter(function (n) { return n !== name; });
+          APP.wishlist = APP.wishlist.filter(function (item) { return item.code !== code; });
           toast('Removed "' + name.trim() + '" from wishlist');
+        }
+        APP.saveWishlist();
+      });
+    });
+
+    qsa('.icon-btn .bi-heart').forEach(function (icon) {
+      var btn = icon.closest('.icon-btn');
+      if (!btn || btn.closest('header') || btn.closest('.product-card') || btn._heartInit) return;
+      btn._heartInit = true;
+      var codeEl = document.querySelector('.pd-code');
+      var titleEl = document.querySelector('.pd-title');
+      if (!codeEl) return;
+      var code = codeEl.textContent.trim();
+      var name = titleEl ? titleEl.textContent.trim() : 'Product';
+      if (APP.wishlist.some(function (item) { return item.code === code; })) {
+        icon.className = 'bi bi-heart-fill';
+      }
+      btn.addEventListener('click', function (e) {
+        e.preventDefault();
+        e.stopPropagation();
+        var isFill = icon.classList.contains('bi-heart-fill');
+        icon.className = isFill ? 'bi bi-heart' : 'bi bi-heart-fill';
+        if (!isFill) {
+          if (!APP.wishlist.some(function (item) { return item.code === code; })) {
+            APP.wishlist.push({ name: name, code: code, price: 0 });
+          }
+          toast('Added "' + name + '" to wishlist');
+        } else {
+          APP.wishlist = APP.wishlist.filter(function (item) { return item.code !== code; });
+          toast('Removed "' + name + '" from wishlist');
         }
         APP.saveWishlist();
       });
@@ -733,11 +797,6 @@
           toast('Account page coming soon');
         });
       }
-      if (btn.querySelector('.bi-heart, .bi-heart-fill') && !btn.closest('.product-card')) {
-        btn.addEventListener('click', function () {
-          toast('Wishlist: ' + APP.wishlist.length + ' item(s)');
-        });
-      }
       if (btn.querySelector('.bi-bag')) {
         var totalItems = APP.cart.reduce(function (a, b) { return a + b.qty; }, 0);
         var totalPrice = APP.cart.reduce(function (a, b) { return a + b.price * b.qty; }, 0);
@@ -766,17 +825,6 @@
   }
 
   function initProductCardLinks() {
-    var productLinks = {
-      M001: 'product.html',
-      M002: 'product-backpack-25ltr.html',
-      M003: 'product-shoe-bag.html',
-      M004: 'product-fanny-pack.html',
-      M005: 'product-socks.html',
-      M006: 'product-cap.html',
-      M007: 'product-atlas.html',
-      M008: 'product-flutters-note.html',
-      M009: 'product-feathers-note.html'
-    };
     qsa('.product-card').forEach(function (card) {
       card.addEventListener('click', function (e) {
         if (e.target.closest('a') || e.target.closest('.fav') || e.target.closest('.cart-btn')) return;
@@ -931,8 +979,83 @@
     });
   }
 
+  function initWishlistDrawer() {
+    if (qs('.wishlist-drawer')) return;
+    var drawer = document.createElement('div');
+    drawer.className = 'wishlist-drawer';
+    drawer.style.cssText = 'position:fixed;top:0;right:-400px;width:380px;height:100%;background:#fff;z-index:9999;box-shadow:-4px 0 24px rgba(0,0,0,.15);transition:right .3s;display:flex;flex-direction:column;max-width:100%';
+    drawer.innerHTML = '<div style="display:flex;justify-content:space-between;align-items:center;padding:16px 20px;border-bottom:1px solid #eee"><h5 style="margin:0;font-weight:700"><i class="bi bi-heart-fill" style="color:var(--brand)"></i> Wishlist</h5><button id="wishlist-close" style="background:none;border:0;font-size:1.5rem;cursor:pointer">&times;</button></div><div id="wishlist-items" style="flex:1;overflow-y:auto;padding:16px 20px"></div>';
+    document.body.appendChild(drawer);
+
+    var overlay = document.createElement('div');
+    overlay.id = 'wishlist-overlay';
+    overlay.style.cssText = 'position:fixed;inset:0;background:rgba(0,0,0,.3);z-index:9998;display:none';
+    document.body.appendChild(overlay);
+
+    function renderWishlist() {
+      var container = document.getElementById('wishlist-items');
+      if (!container) return;
+      if (APP.wishlist.length === 0) {
+        container.innerHTML = '<div style="text-align:center;padding:40px 0;color:#888"><i class="bi bi-heart" style="font-size:3rem;display:block;margin-bottom:12px"></i>Your wishlist is empty</div>';
+        return;
+      }
+      var html = '';
+      APP.wishlist.forEach(function (item, idx) {
+        var url = productLinks[item.code] || '#';
+        html += '<div style="display:flex;gap:12px;align-items:center;padding:12px 0;border-bottom:1px solid #f2f2f2;cursor:pointer" class="wishlist-item" data-url="' + url + '"><div style="flex:1"><div style="font-weight:600;font-size:.9rem">' + item.name + '</div><div style="font-size:.8rem;color:#888">' + (item.code ? item.code : '') + (item.price ? ' &mdash; ₹' + item.price.toLocaleString('en-IN') : '') + '</div></div><button class="wishlist-remove" data-idx="' + idx + '" style="background:none;border:0;color:#c62828;cursor:pointer;font-size:1.2rem">&times;</button></div>';
+      });
+      container.innerHTML = html;
+
+      qsa('.wishlist-item').forEach(function (item) {
+        item.addEventListener('click', function (e) {
+          if (e.target.closest('.wishlist-remove')) return;
+          var url = this.dataset.url;
+          if (url && url !== '#') window.location.href = url;
+        });
+      });
+
+      qsa('.wishlist-remove').forEach(function (btn) {
+        btn.addEventListener('click', function () {
+          var idx = parseInt(this.dataset.idx);
+          APP.wishlist.splice(idx, 1);
+          APP.saveWishlist();
+          renderWishlist();
+          if (APP.wishlist.length === 0) toast('Wishlist is now empty');
+          else toast('Item removed from wishlist');
+        });
+      });
+    }
+
+    function openWishlist() {
+      renderWishlist();
+      drawer.style.right = '0';
+      overlay.style.display = 'block';
+      document.body.style.overflow = 'hidden';
+    }
+
+    function closeWishlist() {
+      drawer.style.right = '-400px';
+      overlay.style.display = 'none';
+      document.body.style.overflow = '';
+    }
+
+    document.getElementById('wishlist-close').addEventListener('click', closeWishlist);
+    overlay.addEventListener('click', closeWishlist);
+
+    qsa('.icon-btn .bi-heart, .icon-btn .bi-heart-fill').forEach(function (heart) {
+      var btn = heart.closest('.icon-btn');
+      if (!btn || !btn.closest('header') || btn._wishlistInit) return;
+      btn._wishlistInit = true;
+      btn.addEventListener('click', function (e) {
+        e.stopPropagation();
+        openWishlist();
+      });
+    });
+  }
+
   function init() {
     updateBadge();
+    updateWishlistBadge();
     initSearch();
     initSearchTypewriter();
     initHeartToggle();
@@ -971,6 +1094,7 @@
     initAdminPagination();
     initProductCardLinks();
     initCartDrawer();
+    initWishlistDrawer();
   }
 
   if (document.readyState === 'loading') {
