@@ -72,7 +72,7 @@ header .searchbar input{padding:.48rem .25rem;font-size:.85rem}
 .feature-strip .f-sub{font-size:.78rem;color:var(--muted)}
 
 /* Track Your Shipment */
-.track-section{background:var(--brand-light);padding:4.5rem 0;margin:-2rem 0;width:100%;height: 100%;}
+.track-section{background:var(--brand-light);padding:2.5rem 0;margin:-2rem 0;width:100%;height: 100%;}
 .track-title{font-weight:800;font-size:1.3rem;margin:0 0 .25rem}
 .track-sub{font-size:.88rem;color:var(--muted);margin:0}
 .track-form{display:flex;gap:.6rem}
